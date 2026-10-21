@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login · Smart Shop AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">✦ Smart Shop <b>AI</b></a>
+    <nav>
+      <a href="/">Shop</a>
+      <a href="/assistant">AI Assistant</a>
+      <a href="/cart">Cart ({{ cart_count }})</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-box">
+      <small>WELCOME BACK</small>
+      <h1>Login</h1>
+      {% with messages = get_flashed_messages() %}
+      {% for m in messages %}<p class="notice">{{ m }}</p>{% endfor %}
+      {% endwith %}
+      <form method="post" action="/login" class="auth-form">
+        <label>
+          Email
+          <input type="email" name="email" required>
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" required>
+        </label>
+        <button class="button full-width">Login</button>
+      </form>
+      <p class="auth-switch">Don’t have an account? <a href="/signup">Create one</a></p>
+    </div>
+  </main>
+
+  <footer>Smart Shop AI · Demo storefront</footer>
+</body>
+</html>

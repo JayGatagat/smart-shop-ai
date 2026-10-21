@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Smart Shop AI</title><link rel="stylesheet" href="{{url_for('static',filename='style.css')}}"></head><body>
+<header><a class="logo" href="/">✦ Smart Shop <b>AI</b></a><nav>
+  <a href="/">Shop</a>
+  <a href="/assistant">AI Assistant</a>
+  <a href="/wishlist">Wishlist</a>
+  {% if user %}<a href="/logout">Logout ({{ user.name }})</a>{% else %}<a href="/login">Login</a>{% endif %}
+  <a href="/cart">Cart ({{cart_count}})</a>
+</nav></header>
+<section class="hero"><div><small>YOUR SMARTER WAY TO SHOP</small><h1>Find your next<br><span>favorite thing.</span></h1><p>Explore everyday essentials and get helpful product suggestions from your shopping assistant.</p><a class="button" href="#catalog">Explore collection ↓</a></div><div class="hero-art"><div class="hero-icon">🛍️</div><h2>Good finds.<br>Smarter choices.</h2><p>Discover something useful today.</p></div></section>
+<main id="catalog"><div class="heading"><div><small>THE COLLECTION</small><h2>Shop the essentials</h2></div><a href="/assistant">Ask the shopping assistant ↗</a></div>
+<form class="filters" method="get"><input name="q" value="{{q}}" placeholder="Search headphones, study gear, travel..."><select name="category">{% for c in categories %}<option {% if c==category %}selected{% endif %}>{{c}}</option>{% endfor %}</select><select name="sort"><option value="featured" {% if sort=='featured' %}selected{% endif %}>Featured</option><option value="price_low" {% if sort=='price_low' %}selected{% endif %}>Price: low to high</option><option value="price_high" {% if sort=='price_high' %}selected{% endif %}>Price: high to low</option><option value="rating" {% if sort=='rating' %}selected{% endif %}>Top rated</option></select><button>Search</button></form>
+{% with messages=get_flashed_messages() %}{% for m in messages %}<p class="notice">{{m}}</p>{% endfor %}{% endwith %}
+<p class="muted">{{products|length}} products · Demo catalog · Prices in INR</p>
+<div class="products">{% for p in products %}<article class="product"><div class="art" style="background-image:url('{{ p.image }}'); background-size:cover; background-position:center;">
+  <span>{{p.badge}}</span>
+  <label>★ {{p.rating}}</label>
+</div><div class="details"><div class="card-header"><h3><a href="/product/{{ p.id }}">{{p.name}}</a></h3>{% if user %}<form method="post" action="/wishlist/toggle/{{ p.id }}" class="wishlist-form"><button type="submit" class="wishlist-btn {% if p.id in wishlist_ids %}active{% endif %}">{% if p.id in wishlist_ids %}♥{% else %}♡{% endif %}</button></form>{% endif %}</div><p>{{p.description}}</p><div class="buy"><b>₹{{"{:,}".format(p.price)}}</b><form method="post" action="/add/{{p.id}}"><button>Add to cart +</button></form></div><small>{{p.stock}} in demo stock</small></div></article>{% else %}<p>No products found. Try another search.</p>{% endfor %}</div></main><footer>Smart Shop AI · Student demo storefront · No real purchases or payments</footer></body></html>

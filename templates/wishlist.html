@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wishlist · Smart Shop AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">✦ Smart Shop <b>AI</b></a>
+    <nav>
+      <a href="/">Shop</a>
+      <a href="/assistant">AI Assistant</a>
+      <a href="/cart">Cart ({{ cart_count }})</a>
+    </nav>
+  </header>
+
+  <main class="wishlist-page">
+    <small>YOUR SAVED ITEMS</small>
+    <h1>Wishlist</h1>
+
+    {% if products %}
+    <div class="products">
+      {% for p in products %}
+      <article class="product">
+        <div class="art" style="background-image:url('{{ p.image }}'); background-size:cover; background-position:center;">
+          <span>{{ p.badge }}</span>
+          <label>★ {{ p.rating }}</label>
+        </div>
+        <div class="details">
+          <h3><a href="/product/{{ p.id }}">{{ p.name }}</a></h3>
+          <p>{{ p.description }}</p>
+          <div class="buy">
+            <b>₹{{ "{:,}".format(p.price) }}</b>
+            <form method="post" action="/add/{{ p.id }}">
+              <button>Add to cart +</button>
+            </form>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <div>💜</div>
+      <h2>Your wishlist is empty</h2>
+      <p>Save products you love from the catalog.</p>
+      <a class="button" href="/">Explore products</a>
+    </div>
+    {% endif %}
+  </main>
+
+  <footer>Smart Shop AI · Demo storefront</footer>
+</body>
+</html>

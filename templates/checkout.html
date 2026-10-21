@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Smart Shop AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">✦ Smart Shop <b>AI</b></a>
+    <nav>
+      <a href="/">Shop</a>
+      <a href="/assistant">AI Assistant</a>
+      <a href="/cart">Cart ({{ cart_count }})</a>
+    </nav>
+  </header>
+
+  <main class="checkout-page">
+    <div class="checkout-shell">
+      <section class="checkout-form-panel">
+        <small>CHECKOUT</small>
+        <h1>Delivery details</h1>
+
+        <form method="post" action="/checkout" class="checkout-form">
+          <div class="field-row">
+            <label>
+              Full name
+              <input type="text" name="name" placeholder="Your full name" value="Demo Customer" required>
+            </label>
+          </div>
+          <div class="field-row two-col">
+            <label>
+              Email
+              <input type="email" name="email" placeholder="you@example.com" value="demo@example.com" required>
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="phone" placeholder="+91 90000 00000" value="+91 90000 00000" required>
+            </label>
+          </div>
+          <label>
+            Address
+            <textarea name="address" rows="4" required>123 Demo Street, Bengaluru, Karnataka</textarea>
+          </label>
+          <label>
+            Payment method
+            <select name="payment">
+              <option>UPI</option>
+              <option>Card</option>
+              <option>Cash on Delivery</option>
+            </select>
+          </label>
+          <button class="button checkout-btn">Place order</button>
+        </form>
+      </section>
+
+      <aside class="summary-panel">
+        <small>ORDER SUMMARY</small>
+        {% for item in items %}
+        <div class="summary-item">
+          <div>
+            <strong>{{ item.product.name }}</strong>
+            <span>Qty {{ item.qty }}</span>
+          </div>
+          <b>₹{{ "{:,}".format(item.line) }}</b>
+        </div>
+        {% endfor %}
+
+        <div class="sumline"><span>Subtotal</span><b>₹{{ "{:,}".format(subtotal) }}</b></div>
+        <div class="sumline"><span>Shipping</span><b>₹{{ "{:,}".format(shipping) }}</b></div>
+        <div class="sumline total"><span>Total</span><b>₹{{ "{:,}".format(total) }}</b></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>Smart Shop AI · Demo storefront</footer>
+</body>
+</html>

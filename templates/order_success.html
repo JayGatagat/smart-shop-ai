@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order placed · Smart Shop AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">✦ Smart Shop <b>AI</b></a>
+    <nav>
+      <a href="/">Shop</a>
+      <a href="/assistant">AI Assistant</a>
+      <a href="/cart">Cart ({{ cart_count }})</a>
+    </nav>
+  </header>
+
+  <main class="success-page">
+    <div class="success-box">
+      <div class="success-icon">✓</div>
+      <small>ORDER CONFIRMED</small>
+      <h1>Thank you for shopping with us.</h1>
+      <p>Your order <b>{{ order.order_id }}</b> has been placed successfully.</p>
+      <div class="order-summary-mini">
+        <div><span>Items</span><b>{{ order.items|length }}</b></div>
+        <div><span>Total</span><b>₹{{ "{:,}".format(order.total) }}</b></div>
+      </div>
+      <a class="button" href="/">Continue shopping</a>
+    </div>
+  </main>
+
+  <footer>Smart Shop AI · Demo storefront</footer>
+</body>
+</html>
